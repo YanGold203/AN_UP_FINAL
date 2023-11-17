@@ -1,0 +1,117 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        xmlns:models="clr-namespace:AN_UP.DateBase"
+        MinHeight="600" MinWidth = "1600"  MaxHeight="600" MaxWidth = "1600"
+        x:Class="AN_UP.Window.ProcedureWindow"
+        Title="График процедур">
+ <Grid ShowGridLines="True" ColumnDefinitions="1*,0.6*">
+
+         <DataGrid Grid.Column="0"  x:Name="DataGrid"
+                           AutoGenerateColumns="False"
+                           IsReadOnly="True"
+                           GridLinesVisibility="All"
+                           BorderThickness="2"
+                           Margin="0,20" SelectionChanged="DataGrid_OnSelectionChanged"
+                           x:DataType="models:Procedure">
+                 <DataGrid.Columns>
+                     <DataGridTextColumn Width="*" Header="Врач" Binding="{Binding OutputDoctorFIO}"/>
+                     <DataGridTextColumn Width="*" Header="ID записи о заболевании" Binding="{Binding DiseaseRecordID}"/>
+                     <DataGridTextColumn Width="*" Header="Описание" Binding="{Binding Description}"/>
+                     <DataGridTextColumn Width="*" Header="Время" Binding="{Binding DateStart}"/>
+                     <DataGridTextColumn Width="*" Header="Продолжительность" Binding="{Binding Duration}"/>
+                     <DataGridTextColumn Width="*" Header="Стоимость" Binding="{Binding Cost}"/>
+                     <DataGridTextColumn Width="*" Header="Статус" Binding="{Binding OutputStatusName}"/>
+
+                 </DataGrid.Columns>
+             </DataGrid>
+        
+        <Grid Grid.Column="1" ShowGridLines="True" ColumnDefinitions="3*,2*" RowDefinitions="0.5*,2*"
+              x:Name="PanelAdmin">
+
+            <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment = "Center" Margin="5">
+
+                     
+                <TextBlock Text="Поиск:" Margin="0,0,0,10"  HorizontalAlignment="Center"/>
+             
+                <TextBox x:Name="SearchBox"  TextChanged="SearchBox_OnTextChanged"
+                         Margin="5" Text=""
+                         Width="250"/>
+                <Button x:Name="ResetBtn"
+                        Click="ResetBtn_OnClick"
+                        Content="Отчистить" HorizontalAlignment="Center"/>
+     
+
+               
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment = "Center" Margin="5">
+                <TextBlock Text="Действия:" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+                <Button x:Name="BtnDelet" Margin="5"
+                        Click="BtnDelet_OnClick" Width="200" HorizontalContentAlignment="Center"
+                        Content="Удалить"/>
+                <Button x:Name="BtnRemoveSelect"
+                        Click="BtnRemoveSelect_OnClick" Width="200" HorizontalContentAlignment="Center"
+                        Content="Отменить выделение" Margin="5"/>            
+                
+               
+            </StackPanel>
+            <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment = "Center"  Margin="2">
+                <TextBlock Text="Редактирование" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+
+          
+
+                <TextBlock Text="Врач:"/>
+                <ComboBox x:Name="CBoxAttendingDoctor" Width="250">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Doctor">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding FirstName}"/>
+                                <TextBlock Text="{Binding LastName}"/> 
+                                <TextBlock Text="{Binding Patronymic}"/> 
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Пациент:"/>
+                <ComboBox x:Name="CBoxDisiaseRecord" Width="250" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:DiseaseRecord">
+                            <TextBlock Text="{Binding Id}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Описание:" />
+                <TextBox x:Name="TBoxDescription" Width="250" Height="50" MaxLines="10"/>
+                
+                <TextBlock Text="Дата проведения:" IsEnabled="False" />
+                <DatePicker x:Name="DPickerDateStart" Width="250" />
+                <TextBlock Text="Продолжительность:" IsEnabled="False"/>
+                <NumericUpDown x:Name="NUpDownDuration" Width="250" Increment="1"/>
+                <TextBlock Text="Стоимость:" IsEnabled="False"/>
+                <NumericUpDown x:Name="NUpDownCost" Width="250"/>
+                <TextBlock Text="Статус:" IsEnabled="False"/>
+                <ComboBox x:Name="CBoxStatus" Width="250">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Status">
+                                <TextBlock Text="{Binding Name}"/> 
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
+                
+                <Button x:Name="BtnSavet" HorizontalAlignment="Center" Margin="5"
+                        Click="BtnSavet_OnClick"
+                        Content="Сохранить" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment = "Center"  Margin="5">
+                <TextBlock Text="Распределение" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+                
+                <Button x:Name="BtnCreateProcedure" HorizontalAlignment="Center" Margin="5"
+                        Click="BtnCreateProcedure_OnClick"
+                        Content="Завершить процедуру" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

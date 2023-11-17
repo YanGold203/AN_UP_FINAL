@@ -1,0 +1,62 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:AN_UP.DateBase"
+        mc:Ignorable="d" 
+        MaxHeight="450" MaxWidth="450" MinHeight=" 450" MinWidth="450"
+        x:Class="AN_UP.Window.AddProcedureWindow"
+        Title="Создание записи процедуры">
+            <StackPanel  HorizontalAlignment = "Center" VerticalAlignment="Center"  Margin="2">
+                <TextBlock Text="Редактирование процедуры" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+
+          
+
+                <TextBlock Text="Врач:"/>
+                <ComboBox x:Name="CBoxAttendingDoctor" Width="250">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Doctor">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding FirstName}"/>
+                                <TextBlock Text="{Binding LastName}"/> 
+                                <TextBlock Text="{Binding Patronymic}"/> 
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Пациент:"/>
+                <ComboBox x:Name="CBoxDisiaseRecord" Width="250" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:DiseaseRecord">
+                            <TextBlock Text="{Binding Id}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Описание:" />
+                <TextBox x:Name="TBoxDescription" Width="250" Height="50" MaxLines="10"/>
+                
+                <TextBlock Text="Дата проведения:" IsEnabled="False" />
+                <DatePicker x:Name="DPickerDateStart" Width="250" />
+                <TextBlock Text="Продолжительность:" IsEnabled="False"/>
+                <NumericUpDown x:Name="NUpDownDuration" Width="250" Increment="1"/>
+                <TextBlock Text="Стоимость:" IsEnabled="False"/>
+                <NumericUpDown x:Name="NUpDownCost" Width="250"/>
+                <TextBlock Text="Статус:" IsEnabled="False"/>
+                <ComboBox x:Name="CBoxStatus" Width="250">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Status">
+                                <TextBlock Text="{Binding Name}"/> 
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
+                
+                
+                <Button x:Name="BtnSavet" HorizontalAlignment="Center" Margin="5"
+                        Click="BtnSavet_OnClick"
+                        Content="Сохранить" />
+                <Button x:Name="BtnExit" HorizontalAlignment="Center" Margin="5"
+                        Click="BtnExit_OnClick"
+                        Content="Отмена" />
+            </StackPanel>
+</Window>

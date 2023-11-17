@@ -1,0 +1,184 @@
+﻿create table disease
+(
+    ID             int   auto_increment       not null
+        primary key,
+    Name           varchar(255) null,
+    DurationLiness int          null
+);
+
+create table patient
+(
+    ID          int       auto_increment   not null
+        primary key,
+    FirstName   varchar(255) null,
+    LastName    varchar(255) null,
+    Patronymic  varchar(255) null,
+    DateBirth   date         null,
+    PhoneNumber varchar(15)  null
+);
+
+create table position
+(
+    ID   int      auto_increment    not null
+        primary key,
+    Name varchar(255) null
+);
+
+create table doctor
+(
+    ID             int    auto_increment      not null
+        primary key,
+    FirstName      varchar(255) null,
+    LastName       varchar(255) null,
+    Patronymic     varchar(255) null,
+    EmploymentDate date         null,
+    PositionID     int          null,
+    Login          varchar(255) null,
+    Password       varchar(255) null,
+    constraint doctor_position_ID_fk
+        foreign key (PositionID) references position (ID)
+);
+
+create table status
+(
+    ID   int          not null
+        primary key,
+    Name varchar(255) null
+);
+
+create table diseaserecord
+(
+    ID                int     auto_increment       not null
+        primary key,
+    PatientID         int            null,
+    FinalPrice        decimal(10, 2) null,
+    DateStart         date           null,
+    DateEnd           date           null,
+    StatusID          int            null,
+    AttendingDoctorID int            null,
+    DiseaseID         int            null,
+    constraint diseaserecord_disease_ID_fk
+        foreign key (DiseaseID) references disease (ID),
+    constraint diseaserecord_doctor_ID_fk
+        foreign key (AttendingDoctorID) references doctor (ID),
+    constraint diseaserecord_patient_ID_fk
+        foreign key (PatientID) references patient (ID),
+    constraint diseaserecord_status_ID_fk
+        foreign key (StatusID) references status (ID)
+);
+
+create table procedurepatient
+(
+    ID              int     auto_increment       not null
+        primary key,
+    DoctorID        int            null,
+    DiseaseRecordID int            null,
+    Description     varchar(255)   null,
+    DateStart       date           null,
+    Duration        int            null,
+    Cost            decimal(10, 2) null,
+    StatusID        int            null,
+    constraint procedurepatient_diseaserecord_ID_fk
+        foreign key (DiseaseRecordID) references diseaserecord (ID),
+    constraint procedurepatient_doctor_ID_fk
+        foreign key (DoctorID) references doctor (ID),
+    constraint procedurepatient_status_ID_fk
+        foreign key (StatusID) references status (ID)
+);
+
+create table receipt
+(
+    ID              int    auto_increment        not null
+        primary key,
+    Amount          decimal(10, 2) null,
+    DiseaseRecordID int            null,
+    DatePayment     date           null,
+    constraint receipt_diseaserecord_ID_fk
+        foreign key (DiseaseRecordID) references diseaserecord (ID)
+);
+
+-- Вставка данных в таблицу Position
+INSERT INTO Position (ID, Name) VALUES
+(1, 'Должность 1'),
+(2, 'Должность 2'),
+(3, 'Должность 3'),
+(4, 'Должность 4');
+
+-- Вставка данных в таблицу Status
+INSERT INTO Status (ID, Name) VALUES
+(1, 'Обрабатывается'),
+(2, 'В работе'),
+(3, 'Отменён'),
+(4, 'Завершён');
+
+-- Вставка данных в таблицу Disease
+INSERT INTO Disease (ID, Name, DurationLiness) VALUES
+(1, 'Болезнь 1', 5),
+(2, 'Болезнь 2', 7),
+(3, 'Болезнь 3', 3),
+(4, 'Болезнь 4', 10),
+(5, 'Болезнь 5', 6),
+(6, 'Болезнь 6', 4),
+(7, 'Болезнь 7', 8),
+(8, 'Болезнь 8', 9),
+(9, 'Болезнь 9', 11),
+(10, 'Болезнь 10', 12);
+
+-- Вставка данных в таблицу Patient
+INSERT INTO Patient (ID, FirstName, LastName, Patronymic, DateBirth, PhoneNumber) VALUES
+(1, 'Иван', 'Иванов', 'Иванович', '1990-05-15', '1234567890'),
+(2, 'Петр', 'Петров', 'Петрович', '1985-07-20', '9876543210'),
+(3, 'Анна', 'Сидорова', 'Алексеевна', '1978-03-10', '5551234567'),
+(4, 'Елена', 'Смирнова', 'Андреевна', '2000-11-25', '7778889999'),
+(5, 'Дмитрий', 'Козлов', 'Игоревич', '1995-09-03', '3330001111'),
+(6, 'Мария', 'Павлова', 'Владимировна', '1980-12-12', '2224446666'),
+(7, 'Алексей', 'Федоров', 'Степанович', '1970-02-28', '8882224444'),
+(8, 'Светлана', 'Васильева', 'Петровна', '1998-08-08', '9991113333'),
+(9, 'Ольга', 'Морозова', 'Сергеевна', '2005-04-17', '1119997777'),
+(10, 'Артем', 'Николаев', 'Александрович', '1987-06-29', '4567890123');
+
+-- Вставка данных в таблицу Doctor
+INSERT INTO Doctor (ID, FirstName, LastName, Patronymic, EmploymentDate, PositionID, Login, Password) VALUES
+(1, 'Василий', 'Петров', 'Иванович', '2010-08-12', 1, 'doctor1', 'pass1'),
+(2, 'Елена', 'Смирнова', 'Андреевна', '2015-04-05', 2, 'doctor2', 'pass2'),
+(3, 'Александр', 'Сидоров', 'Петрович', '2018-11-20', 3, 'doctor3', 'pass3'),
+(4, 'Ольга', 'Иванова', 'Игоревна', '2020-02-14', 4, 'doctor4', 'pass4');
+
+-- Вставка данных в таблицу DiseaseRecord
+INSERT INTO DiseaseRecord (ID, PatientID, FinalPrice, DateStart, DateEnd, StatusID, AttendingDoctorID, DiseaseID) VALUES
+(1, 1, 150.00, '2023-01-10', '2023-01-20', 4, 1, 2),
+(2, 3, 200.50, '2023-02-05', '2023-02-15', 2, 2, 5),
+(3, 5, 300.25, '2023-03-15', '2023-03-30', 1, 3, 8),
+(4, 7, 120.75, '2023-04-20', '2023-05-05', 3, 4, 3),
+(5, 9, 180.00, '2023-05-10', '2023-05-25', 2, 1, 7),
+(6, 2, 250.00, '2023-06-01', '2023-06-15', 4, 2, 4),
+(7, 4, 280.50, '2023-07-05', '2023-07-20', 1, 3, 6),
+(8, 6, 400.75, '2023-08-10', '2023-08-25', 2, 4, 9),
+(9, 8, 180.25, '2023-09-15', '2023-09-30', 4, 1, 1),
+(10, 10, 150.00, '2023-10-20', '2023-11-05', 3, 2, 10);
+
+-- Вставка данных в таблицу Procedure
+INSERT INTO procedurepatient (ID, DoctorID, DiseaseRecordID, Description, DateStart, Duration, Cost) VALUES
+(1, 1, 1, 'Процедура 1', '2023-01-11', 3, 50.00),
+(2, 2, 2, 'Процедура 2', '2023-02-06', 5, 70.50),
+(3, 3, 3, 'Процедура 3', '2023-03-16', 4, 90.25),
+(4, 4, 4, 'Процедура 4', '2023-04-21', 6, 40.75),
+(5, 1, 5, 'Процедура 5', '2023-05-11', 7, 60.00),
+(6, 2, 6, 'Процедура 6', '2023-06-02', 8, 100.00),
+(7, 3, 7, 'Процедура 7', '2023-07-06', 5, 80.50),
+(8, 4, 8, 'Процедура 8', '2023-08-11', 4, 120.75),
+(9, 1, 9, 'Процедура 9', '2023-09-16', 3, 70.25),
+(10, 2, 10, 'Процедура 10', '2023-10-21', 6, 50.00);
+
+-- Вставка данных в таблицу Receipt
+INSERT INTO Receipt (ID, Amount, DiseaseRecordID, DatePayment) VALUES
+(1, 100.00, 1, '2023-01-25'),
+(2, 150.50, 2, '2023-02-20'),
+(3, 200.25, 3, '2023-03-31'),
+(4, 80.75, 4, '2023-05-15'),
+(5, 120.00, 5, '2023-06-18'),
+(6, 180.00, 6, '2023-07-25'),
+(7, 300.50, 7, '2023-08-30'),
+(8, 150.75, 8, '2023-10-05'),
+(9, 90.25, 9, '2023-11-10'),
+(10, 50.00, 10, '2023-12-15');

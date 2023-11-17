@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        MaxHeight="450" MaxWidth="450" MinHeight=" 450" MinWidth="450"
+        x:Class="AN_UP.LoginWindow"
+        Title="Вход">
+ <Grid Margin="5">
+                <StackPanel 
+                        Orientation="Vertical" VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                        <TextBlock 
+                                Margin="20"  HorizontalAlignment="Center"
+                                Text="Авторизация"
+                                FontSize="30"/>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" Width="200" x:Name="PanelClient"
+                                    IsVisible="False">
+                                
+                                <TextBlock>Номер телефона</TextBlock>
+                                <TextBox x:Name="TBoxPhoneNumber"/>     
+                                
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" Width="200"  x:Name="PanelEmployee">
+                                <TextBlock>Логин</TextBlock>
+                                <TextBox x:Name="TBoxLogin" Text="admin"/>
+                                <TextBlock>Пароль</TextBlock>
+                                <TextBox x:Name="TBoxPassword" Text="admin"/>
+                        </StackPanel>
+                        <Button x:Name="BtnAuth" Margin="4" Width="200" HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+                                Content="Авторизоваться"
+                                Click="BtnAuth_OnClick"/>
+                        <Button x:Name="BtnSwitch" Margin="4" Width="200" HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+                                Content="Войти как пациент"
+                                Click="BtnSwitch_OnClick"/>
+                        <Button x:Name="BtnClose" Margin="4" Width="100" HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+                                Content="Закрыть"
+                                Click="BtnClose_OnClick"/>
+                        
+                </StackPanel>
+        </Grid>
+</Window>
